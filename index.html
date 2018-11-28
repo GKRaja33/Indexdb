@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form>
+      <input type="text" name="" id="name" value="" placeholder="Name"> <br>
+      <button type="button" name="button" onclick="result()">Click me</button>
+    </form>
+  </body>
+</html>
+<script>
+  // console.log("hi");
+  var open;
+  var trans;
+  var store;
+function result(){
+  window.open("hi.html");
+  var name=document.querySelector("#name").value;
+var idb=window.indexedDB || window.mozindexedDB || window.webkitindexedDB || window.msindexedDB;
+if(!idb){
+  console.log("sorry browser does not support indexedDB");
+} else {
+  console.log("Success");
+}
+
+open=idb.open("DB",1);
+
+open.onupgradeneeded=function(e){
+var result=e.target.result;
+var objStore=result.createObjectStore("store",{keyPath:"id",autoIncrement:true});
+}
+
+open.onerror=function(e){
+console.log("error");
+}
+
+open.onsuccess=function(e){
+var result=e.target.result;
+trans=result.transaction("store","readwrite");
+store=trans.objectStore("store");
+store.put({
+  name:name
+});
+}
+
+}
+</script>
